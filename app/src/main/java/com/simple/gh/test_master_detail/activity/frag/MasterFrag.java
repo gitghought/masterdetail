@@ -14,12 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.simple.gh.test_master_detail.R;
+import com.simple.gh.test_master_detail.activity.activity.MasterActivity;
 import com.simple.gh.test_master_detail.activity.adapter.MasterAdapter;
 import com.simple.gh.test_master_detail.activity.objs.Provinces;
-import com.simple.gh.test_master_detail.activity.utils.MyHttpUtil;
 import com.simple.gh.test_master_detail.activity.utils.MyJsonUtil;
 import com.simple.gh.test_master_detail.activity.utils.MyShowUtil;
 import com.simple.gh.test_master_detail.activity.utils.ProvObjs;
+import com.simple.gh.test_master_detail.activity.utils.http.MyHttpUtil;
 
 import org.json.JSONException;
 
@@ -69,36 +70,56 @@ public class MasterFrag extends ListFragment{
 
         this.setListAdapter(adapter);
     }
-    private void sendRequest(String murl, Callback call) {
-        try {
-            MyHttpUtil.sendRequest(murl, call);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void sendRequest(String murl, MyHttpUtil.MyCallBack call) {
+////        try {
+////            MyHttpUtil.sendRequest(murl, call);
+////        } catch (IOException e) {
+////            e.printStackTrace();
+////        }
+//        try {
+//            MyHttpUtil.invoke(murl, call);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Thread mythread = new Thread(new Runnable() {
             @Override
             public void run() {
-                sendRequest(MasterFrag.this.murl, new Callback() {
+                MyHttpUtil.sendRequest(MasterFrag.this.murl, new MyHttpUtil.MyCallBack() {
                     @Override
-                    public void onFailure(Call call, IOException e) {
-
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        String str = response.body().string();
-                        Log.d(MyShowUtil.TAG, "onResponse: str = " + str);
+                    public void onFinished(String val) {
                         try {
-                            provs = MyJsonUtil.parseProvinceJsonWithGson(str);
+                            provs = MyJsonUtil.parseProvinceJsonWithGson(val);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
                 });
+//                sendRequest(MasterFrag.this.murl, new Callback() {
+//                    @Override
+//                    public void onFailure(Call call, IOException e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onResponse(Call call, Response response) throws IOException {
+//                        String str = response.body().string();
+//                        Log.d(MyShowUtil.TAG, "onResponse: str = " + str);
+//                        try {
+//                            provs = MyJsonUtil.parseProvinceJsonWithGson(str);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
             }
         });
         mythread.start();
@@ -116,5 +137,6 @@ public class MasterFrag extends ListFragment{
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         call.onCrimeSelected(provs.get(position));
+//        ((MasterActivity)this.getActivity()).ondetailUpdate();
     }
 }

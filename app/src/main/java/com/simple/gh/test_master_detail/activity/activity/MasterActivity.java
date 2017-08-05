@@ -25,37 +25,28 @@ public class MasterActivity extends SingleActivity implements MasterFrag.CallBac
     private String murl = "http://guolin.tech/api/china";
     private static ArrayList<City> cities = new ArrayList<City>();
 
+    public void ondetailUpdate() {
+        FragmentManager fm = this.getSupportFragmentManager();
+        DetailFrag frag = (DetailFrag) fm.findFragmentById(R.id.detail_fragment_container);
+        if (frag == null) {
+            return;
+        }
+        frag.onUiUpdate();
+    }
+
     @Override
     public Fragment createFragment() {
         return new MasterFrag();
     }
-    private void sendRequest(String murl, Callback call) {
-        try {
-            MyHttpUtil.sendRequest(murl, call);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void sendRequest(String murl, Callback call) {
+//        try {
+//            MyHttpUtil.sendRequest(murl, call);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     @Override
     public void onCrimeSelected(Provinces prov) {
-
-//        this.sendRequest(this.murl, new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                String str = response.body().string();
-//                try {
-//                    cities = MyJsonUtil.parseCityJsonWithGson(str);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        });
 
         FragmentManager fm = this.getSupportFragmentManager();
         FragmentTransaction bt = fm.beginTransaction();

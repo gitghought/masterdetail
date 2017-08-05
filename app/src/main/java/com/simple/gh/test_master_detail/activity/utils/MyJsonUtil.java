@@ -1,5 +1,7 @@
 package com.simple.gh.test_master_detail.activity.utils;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.simple.gh.test_master_detail.activity.objs.City;
@@ -19,6 +21,8 @@ public class MyJsonUtil {
 
     public static ArrayList<City> parseCityJsonWithGson(String json) throws JSONException {
         Gson gson = new Gson();
+
+        Log.d(MyShowUtil.TAG, "parseCityJsonWithGson: str = " + json);
 
         Type type = new TypeToken<ArrayList<City>>() {
         }.getType();
