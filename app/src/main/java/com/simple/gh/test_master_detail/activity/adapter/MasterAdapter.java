@@ -37,7 +37,7 @@ public class MasterAdapter extends ArrayAdapter{
         View view = inflater.inflate(this.resource, parent, false);
 
         TextView tvID = (TextView) view.findViewById(R.id.tv_id);
-        tvID.setText(String.valueOf(this.provs.get(position).getId()));
+        tvID.setText(this.provs.get(position).getName());
 
         return view;
     }

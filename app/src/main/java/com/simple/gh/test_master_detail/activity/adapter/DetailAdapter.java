@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.simple.gh.test_master_detail.R;
+import com.simple.gh.test_master_detail.activity.objs.City;
 import com.simple.gh.test_master_detail.activity.objs.Provinces;
 
 import java.util.ArrayList;
@@ -20,9 +21,9 @@ import java.util.ArrayList;
 public class DetailAdapter extends ArrayAdapter{
     private Context context;
     private int resource;
-    private ArrayList<Provinces> provs;
+    private ArrayList<City> provs;
 
-    public DetailAdapter(Context context, int resource, ArrayList<Provinces> objects) {
+    public DetailAdapter(Context context, int resource, ArrayList<City> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
@@ -36,7 +37,7 @@ public class DetailAdapter extends ArrayAdapter{
         View view = inflater.inflate(this.resource, parent, false);
 
         TextView tvID = (TextView) view.findViewById(R.id.tv_id);
-        tvID.setText(String.valueOf(this.provs.get(position).getId()));
+        tvID.setText(provs.get(position).getName());
 
         return view;
     }
