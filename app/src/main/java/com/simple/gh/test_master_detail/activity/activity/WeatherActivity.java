@@ -13,8 +13,12 @@ import com.simple.gh.test_master_detail.activity.frag.SubDetailFrag;
 import com.simple.gh.test_master_detail.activity.frag.weather.WeatherForecastItemFragment;
 import com.simple.gh.test_master_detail.activity.frag.weather.WeatherNowFragment;
 import com.simple.gh.test_master_detail.activity.frag.weather.WeatherTitleFrag;
+import com.simple.gh.test_master_detail.activity.objs.Weather;
+import com.simple.gh.test_master_detail.activity.utils.MyJsonUtil;
 import com.simple.gh.test_master_detail.activity.utils.MyShowUtil;
 import com.simple.gh.test_master_detail.activity.utils.http.MyHttpUtil;
+
+import org.json.JSONException;
 
 public class WeatherActivity extends AppCompatActivity {
 
@@ -23,6 +27,8 @@ public class WeatherActivity extends AppCompatActivity {
             "http://guolin.tech/api/weather?cityid=CN101010200&key=996a262d9f854c5baf75d844c8dc7c24";
     public static final String URL_PREFIX = "http://guolin.tech/api/weather?";
     public static final String URL_END = "&key=996a262d9f854c5baf75d844c8dc7c24";
+
+    public Weather weather;
 
     public Fragment createFragment() {
         return new WeatherTitleFrag();
@@ -49,6 +55,14 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onFinished(String val) {
                 Log.d(MyShowUtil.TAG, "onFinished: val = " + val);
+                try {
+                    weather = MyJsonUtil.parseWeatherWithGson(val);
+                    String status = weather.getStatus();
+                    Log.d(MyShowUtil.TAG, "onFinished: status = " + status);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

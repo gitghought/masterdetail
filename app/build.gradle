@@ -11,10 +11,19 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        config {
+            storeFile file('F:/mygithub/test_master_detail/a_gen.jks')
+            storePassword '123456'
+            keyAlias 'adfsf'
+            keyPassword '123456'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
