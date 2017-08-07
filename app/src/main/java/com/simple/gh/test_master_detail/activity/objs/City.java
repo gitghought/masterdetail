@@ -5,10 +5,10 @@ package com.simple.gh.test_master_detail.activity.objs;
  */
 
 public class City {
-    private int id;
-    private String name;
-    private int cityCode;
-    private int provinceCode;
+    public int id;
+    public String name;
+    public int cityCode;
+    public int provinceCode;
 
     public void setCityCode(int cityCode) {
         this.cityCode = cityCode;

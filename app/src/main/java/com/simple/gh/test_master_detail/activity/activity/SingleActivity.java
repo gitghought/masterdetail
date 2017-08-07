@@ -16,6 +16,11 @@ public class SingleActivity extends AppCompatActivity {
         return null;
     }
 
+    //R.id.*
+    public int getFragmentContainer () {
+        return R.id.master_fragment_container;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,10 +29,10 @@ public class SingleActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction bt = fm.beginTransaction();
 
-        MasterFrag frag = (MasterFrag) fm.findFragmentById(R.id.master_fragment_container);
+        MasterFrag frag = (MasterFrag) fm.findFragmentById(getFragmentContainer());
         if (frag == null) {
             frag = (MasterFrag) createFragment();
-            bt.add(R.id.master_fragment_container, frag);
+            bt.add(getFragmentContainer(), frag);
             bt.commit();
         }
     }

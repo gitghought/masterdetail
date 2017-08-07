@@ -1,15 +1,23 @@
 package com.simple.gh.test_master_detail.activity.objs;
 
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by gh on 2017-07-27.
  */
 
 public class Country {
-    private int id;
-    private String name;
-    private int weatherID;
-    private int cityID;
+    public int id;
+    public String name;
+
+    public void setWeatherID(String weatherID) {
+        this.weatherID = weatherID;
+    }
+
+    @SerializedName("weather_id")
+    public String weatherID;
+    public int cityID;
 
     public void setCityID(int cityID) {
         this.cityID = cityID;
@@ -21,10 +29,6 @@ public class Country {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setWeatherID(int weatherID) {
-        this.weatherID = weatherID;
     }
 
     public int getCityID() {
@@ -39,7 +43,7 @@ public class Country {
         return name;
     }
 
-    public int getWeatherID() {
+    public String getWeatherID() {
         return weatherID;
     }
 }

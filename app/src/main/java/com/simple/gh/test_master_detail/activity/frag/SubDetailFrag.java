@@ -1,67 +1,53 @@
 package com.simple.gh.test_master_detail.activity.frag;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.simple.gh.test_master_detail.R;
+import com.simple.gh.test_master_detail.activity.activity.WeatherActivity;
 import com.simple.gh.test_master_detail.activity.adapter.DetailAdapter;
-import com.simple.gh.test_master_detail.activity.adapter.MasterAdapter;
+import com.simple.gh.test_master_detail.activity.adapter.SubDetailAdapter;
 import com.simple.gh.test_master_detail.activity.objs.City;
+import com.simple.gh.test_master_detail.activity.objs.Country;
 import com.simple.gh.test_master_detail.activity.objs.Provinces;
+import com.simple.gh.test_master_detail.activity.objs.Weather;
 import com.simple.gh.test_master_detail.activity.utils.MyJsonUtil;
 import com.simple.gh.test_master_detail.activity.utils.MyShowUtil;
-import com.simple.gh.test_master_detail.activity.utils.ProvObjs;
 import com.simple.gh.test_master_detail.activity.utils.http.MyHttpUtil;
 
 import org.json.JSONException;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 /**
  * Created by gh on 2017-08-02.
  */
 
-public class DetailFrag extends ListFragment{
-    private static String murl = "http://guolin.tech/api/china/";
-    private static ArrayList<City> cities = new ArrayList<City>();
-    private DetailAdapter adapter;
-    public static final String EXTRA_PROV_ID = "EXTRA_PROV_ID";
+public class SubDetailFrag extends ListFragment{
+    private static String murl = "http://guolin.tech/api/china";
+    public static final String EXTRA_WEATHER_ID = "WEATHER_ID";
+    private static ArrayList<Country> cities = new ArrayList<Country>();
 
-    private CallBacks call;
-
-    public interface CallBacks {
-        public void onCrimeSelected(City city);
-    }
+    private SubDetailAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        call = (CallBacks) context;
-
         Log.d(MyShowUtil.TAG, "onAttach: " + "detail Fragment");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        call = null;
         Log.d(MyShowUtil.TAG, "onDetach: " + "detail Fragment");
     }
 
@@ -107,6 +93,10 @@ public class DetailFrag extends ListFragment{
         super.onDestroy();
         Log.d(MyShowUtil.TAG, "onDestroy: detail fragment");
     }
+    public void onUiUpdate(){
+        SubDetailAdapter adapter = (SubDetailAdapter) this.getListAdapter();
+        adapter.notifyDataSetChanged();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -117,13 +107,13 @@ public class DetailFrag extends ListFragment{
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public static DetailFrag newInstance(int provID) {
-        Log.d(MyShowUtil.TAG, "newInstance: detail fragment");
-        MyHttpUtil.sendRequest(murl + provID, new MyHttpUtil.MyCallBack() {
+    public static SubDetailFrag newInstance(String subUrl) {
+        Log.d(MyShowUtil.TAG, "newInstance: sub detail fragment");
+        MyHttpUtil.sendRequest(murl + "/" + subUrl, new MyHttpUtil.MyCallBack() {
             @Override
             public void onFinished(String val) {
                 try {
-                    cities = MyJsonUtil.parseCityJsonWithGson(val);
+                    cities = MyJsonUtil.parseCountryJsonWithGson(val);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -141,9 +131,8 @@ public class DetailFrag extends ListFragment{
         }
 
         Bundle args = new Bundle();
-        args.putString(EXTRA_PROV_ID, String.valueOf(provID));
 
-        DetailFrag fragment = new DetailFrag();
+        SubDetailFrag fragment = new SubDetailFrag();
         fragment.setArguments(args);
         return fragment;
     }
@@ -153,9 +142,7 @@ public class DetailFrag extends ListFragment{
 
         Log.d(MyShowUtil.TAG, "onCreate: " + "begin");
 
-        adapter = new DetailAdapter(this.getActivity(),
-                R.layout.master_fragment_layout,
-                cities);
+        adapter = new SubDetailAdapter(this.getActivity(), R.layout.master_fragment_layout, cities);
 
         this.setListAdapter(adapter);
     }
@@ -163,6 +150,15 @@ public class DetailFrag extends ListFragment{
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        call.onCrimeSelected(cities.get(position));
+        Intent intent = new Intent();
+        intent.setClass(this.getActivity(), WeatherActivity.class);
+
+        String weatherID = cities.get(position).getWeatherID();
+        Log.d(MyShowUtil.TAG, "onListItemClick: weatherid = " + weatherID);
+
+        intent.putExtra(EXTRA_WEATHER_ID, weatherID);
+
+        startActivity(intent);
+
     }
 }

@@ -70,24 +70,11 @@ public class MasterFrag extends ListFragment{
 
         this.setListAdapter(adapter);
     }
-//    private void sendRequest(String murl, MyHttpUtil.MyCallBack call) {
-////        try {
-////            MyHttpUtil.sendRequest(murl, call);
-////        } catch (IOException e) {
-////            e.printStackTrace();
-////        }
-//        try {
-//            MyHttpUtil.invoke(murl, call);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Thread mythread = new Thread(new Runnable() {
-            @Override
-            public void run() {
+
                 MyHttpUtil.sendRequest(MasterFrag.this.murl, new MyHttpUtil.MyCallBack() {
                     @Override
                     public void onFinished(String val) {
@@ -103,29 +90,8 @@ public class MasterFrag extends ListFragment{
 
                     }
                 });
-//                sendRequest(MasterFrag.this.murl, new Callback() {
-//                    @Override
-//                    public void onFailure(Call call, IOException e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onResponse(Call call, Response response) throws IOException {
-//                        String str = response.body().string();
-//                        Log.d(MyShowUtil.TAG, "onResponse: str = " + str);
-//                        try {
-//                            provs = MyJsonUtil.parseProvinceJsonWithGson(str);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-            }
-        });
-        mythread.start();
-
         try {
-            mythread.join();
+            MyHttpUtil.getThread().join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -137,6 +103,5 @@ public class MasterFrag extends ListFragment{
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         call.onCrimeSelected(provs.get(position));
-//        ((MasterActivity)this.getActivity()).ondetailUpdate();
     }
 }

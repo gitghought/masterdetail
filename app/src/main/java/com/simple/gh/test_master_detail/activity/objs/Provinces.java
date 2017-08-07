@@ -5,9 +5,9 @@ package com.simple.gh.test_master_detail.activity.objs;
  */
 
 public class Provinces {
-    private int id;
-    private String name;
-    private int provinceCode;
+    public int id;
+    public String name;
+    public int provinceCode;
 
     public int getProvinceCode() {
         return provinceCode;
