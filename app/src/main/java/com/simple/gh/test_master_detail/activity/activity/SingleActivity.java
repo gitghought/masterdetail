@@ -10,6 +10,7 @@ import android.os.Bundle;
 import com.simple.gh.test_master_detail.R;
 import com.simple.gh.test_master_detail.activity.frag.MasterFrag;
 import com.simple.gh.test_master_detail.activity.sql.MyDatabaseHelper;
+import com.simple.gh.test_master_detail.activity.utils.thread.MyAsyncTask;
 
 import static com.simple.gh.test_master_detail.R.id.master_fragment_container;
 

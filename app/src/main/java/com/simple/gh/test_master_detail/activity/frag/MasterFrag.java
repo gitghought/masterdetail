@@ -24,6 +24,7 @@ import com.simple.gh.test_master_detail.activity.utils.MyJsonUtil;
 import com.simple.gh.test_master_detail.activity.utils.MyShowUtil;
 import com.simple.gh.test_master_detail.activity.utils.ProvObjs;
 import com.simple.gh.test_master_detail.activity.utils.http.MyHttpUtil;
+import com.simple.gh.test_master_detail.activity.utils.thread.MyAsyncTask;
 
 import org.json.JSONException;
 import org.litepal.LitePal;
@@ -39,12 +40,17 @@ import okhttp3.Response;
  * Created by gh on 2017-08-02.
  */
 
-public class MasterFrag extends ListFragment{
+public class MasterFrag extends ListFragment implements MyAsyncTask.AsyncCallback{
 
     private static ArrayList<Provinces> provs = new ArrayList<>();
     private String murl = "http://guolin.tech/api/china";
     private MasterAdapter adapter;
     private SQLiteDatabase db;
+
+    @Override
+    public void onFinished(String json) {
+        Log.d(MyShowUtil.TAG, "onFinished: return json from async = " + json);
+    }
 //    private MyDatabaseHelper helper;
 //    private SQLiteDatabase db;
 
@@ -70,10 +76,10 @@ public class MasterFrag extends ListFragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        db = LitePal.getDatabase();
+        new MyAsyncTask(this).execute(MasterFrag.this.murl);
 
-//        helper = new MyDatabaseHelper(this.getActivity(), "coolweather.db", null, 3);
-//        db = helper.getWritableDatabase();
+
+        db = LitePal.getDatabase();
 
         adapter =
                 new MasterAdapter(this.getActivity(),
