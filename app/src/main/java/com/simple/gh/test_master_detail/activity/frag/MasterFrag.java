@@ -1,9 +1,14 @@
 package com.simple.gh.test_master_detail.activity.frag;
 
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Binder;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +24,7 @@ import com.simple.gh.test_master_detail.R;
 import com.simple.gh.test_master_detail.activity.activity.MasterActivity;
 import com.simple.gh.test_master_detail.activity.adapter.MasterAdapter;
 import com.simple.gh.test_master_detail.activity.objs.Provinces;
+import com.simple.gh.test_master_detail.activity.service.MyService;
 import com.simple.gh.test_master_detail.activity.sql.MyDatabaseHelper;
 import com.simple.gh.test_master_detail.activity.utils.MyJsonUtil;
 import com.simple.gh.test_master_detail.activity.utils.MyShowUtil;
@@ -72,12 +78,29 @@ public class MasterFrag extends ListFragment implements MyAsyncTask.AsyncCallbac
         call = null;
     }
 
+    public ServiceConnection conn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            ((MyService.MyBinder)service).onFinished();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         new MyAsyncTask(this).execute(MasterFrag.this.murl);
 
+        this.getActivity().bindService(
+                new Intent(this.getActivity(), MyService.class),
+                conn,
+                Context.BIND_AUTO_CREATE
+        );
 
         db = LitePal.getDatabase();
 

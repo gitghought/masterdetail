@@ -20,12 +20,15 @@
         <activity android:name=".activity.activity.WeatherActivity" />
 
         <provider
-        android:name=".activity.sql.MyContentProvider"
-        android:authorities="com.simple.gh.test_master_detail.provider"
-        android:enabled="true"
-        android:exported="true">
+            android:name=".activity.sql.MyContentProvider"
+            android:authorities="com.simple.gh.test_master_detail.provider"
+            android:enabled="true"
+            android:exported="true"></provider>
 
-        </provider>
+        <service
+            android:name=".activity.service.MyService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
