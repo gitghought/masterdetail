@@ -3,12 +3,13 @@
     package="com.simple.gh.test_master_detail">
 
     <application
+        android:name=".activity.utils.MyContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.activity.SingleActivity"></activity>
+        <activity android:name=".activity.activity.SingleActivity" />
         <activity android:name=".activity.activity.MasterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,7 +17,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.activity.WeatherActivity"></activity>
+        <activity android:name=".activity.activity.WeatherActivity" />
+
+        <provider
+        android:name=".activity.sql.MyContentProvider"
+        android:authorities="com.simple.gh.test_master_detail.provider"
+        android:enabled="true"
+        android:exported="true">
+
+        </provider>
     </application>
 
 </manifest>

@@ -44,6 +44,7 @@ public class MasterActivity extends SingleActivity implements MasterFrag.CallBac
 
         bt.add(R.id.detail_fragment_container, DetailFrag.newInstance(prov.getId()));
         bt.commit();
+        this.db.insert("Province", null, null);
     }
 
     @Override
