@@ -13,9 +13,7 @@ import com.baidu.mapapi.map.MapView;
 import com.simple.gh.test_master_detail.R;
 import com.simple.gh.test_master_detail.activity.utils.MyShowUtil;
 
-public class BaiduActivity extends AppCompatActivity {
-    private TextView tvInfo;
-
+public class BaiduActivity extends AppCompatActivity /*implements BDLocationListener*/{
     private LocationClient client;
     private MapView bView;
 
@@ -28,36 +26,12 @@ public class BaiduActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //notice here
         SDKInitializer.initialize(this.getApplicationContext());
-
         setContentView(R.layout.activity_baidu);
 
         Log.d(MyShowUtil.TAG, "onCreate baidu");
-
         bView = (MapView) findViewById(R.id.bmapview);
-
-
-//        client = new LocationClient(this);
-//        client.registerLocationListener(new BDLocationListener() {
-//            @Override
-//            public void onReceiveLocation(BDLocation bdLocation) {
-//                Log.d(MyShowUtil.TAG, "onReceiveLocation: " + "onReceiveLocation");
-//                StringBuilder sb = new StringBuilder();
-//                sb.append("经度").append( bdLocation.getLatitude() );
-//                sb.append("纬度").append( bdLocation.getLatitude() );
-//
-//                Log.d(MyShowUtil.TAG, "onReceiveLocation: latitude = " + sb.toString());
-//            }
-//
-//            @Override
-//            public void onConnectHotSpotMessage(String s, int i) {
-//
-//            }
-//        });
-//
-//        client.start();
-//
-//        tvInfo = (TextView) findViewById(R.id.tv_info);
     }
+
 }
