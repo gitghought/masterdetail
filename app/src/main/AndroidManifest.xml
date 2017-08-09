@@ -11,13 +11,18 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.activity.SingleActivity" />
         <activity android:name=".activity.activity.MasterActivity">
+        </activity>
+        <activity android:name=".activity.activity.WeatherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".activity.activity.WeatherActivity" />
+        <activity android:name=".activity.activity.NotificationActivity">
+
+        </activity>
 
         <provider
             android:name=".activity.sql.MyContentProvider"
